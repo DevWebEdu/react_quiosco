@@ -7,6 +7,7 @@ export const useAuth= ({middleware,url}) => {
     const navigate = useNavigate()
     //autenticando al usuario con el token
     const token = localStorage.getItem('AUTH_TOKEN')
+
     const {data:user , error,mutate } = useSWR('/api/user',()=>
         clienteAxios('/api/user',{
             headers:{
@@ -17,6 +18,7 @@ export const useAuth= ({middleware,url}) => {
             throw Error(error?.response?.data?.errors)
         })
     )
+
     //funcion de logeo
     const login = async (datos,setErrores) =>{
         try {
@@ -61,6 +63,12 @@ export const useAuth= ({middleware,url}) => {
     useEffect(()=>{
         if(middleware=== 'guest' && url && user ){
             navigate(url)
+        }
+        if(middleware === 'guest' && user && user.admin){
+            navigate('/admin')
+        }
+        if(middleware === 'admin' && user && !user.admin){
+            navigate('/')
         }
         if(middleware === 'auth'  && error){
             navigate('/auth/login')
