@@ -25,7 +25,8 @@ const Ordenes = () => {
               Administra tus Ordenes
             </p>
             <div className=' grid grid-cols-3 gap-5'>
-                {
+                {  
+                 
                     data.data.data.map( pedido => (
                         <div key={pedido.id} className='p-5 bg-white shadow space-y-2 border-b'>
                                 <p key={pedido.id} className='text-xl font-bold text-slate-600'>
@@ -46,7 +47,7 @@ const Ordenes = () => {
                                     <span className='font-normal' > {pedido.user.name} </span>
                                 </p>
                                 <p className='text-lg font-bold text-amber-600' >
-                                    cliente : {' '}
+                                    Total a pagar : {' '}
                                     <span className='font-normal' > { formatearDinero(pedido.total)} </span>
                                 </p>
                                 <button 

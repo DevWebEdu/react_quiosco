@@ -26,6 +26,7 @@ const Sidebar = () => {
         onClick={logout}
         >
             Cancelar Orden
+           
         </button>
       </div>
     </aside>

@@ -39,7 +39,7 @@ export const useAuth= ({middleware,url}) => {
             setErrores([])
             await mutate()
           } catch (error) {
-            setErrores(Object.values(error.response.data.errors))
+            setErrores(Object.values(error?.response?.data?.errors))
           }
       
 
