@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom"
 import useSWR from  'swr'
 
 export const useAuth= ({middleware,url}) => {
-    const navigate = useNavigate()
+    
     //autenticando al usuario con el token
     const token = localStorage.getItem('AUTH_TOKEN')
+    const navigate = useNavigate()
 
     const {data:user , error,mutate } = useSWR('/api/user',()=>
         clienteAxios('/api/user',{
@@ -39,7 +40,7 @@ export const useAuth= ({middleware,url}) => {
             setErrores([])
             await mutate()
           } catch (error) {
-            setErrores(Object.values(error?.response?.data?.errors))
+            setErrores(Object.values(error.response.data.errors) )
           }
       
 
@@ -60,20 +61,24 @@ export const useAuth= ({middleware,url}) => {
         }
     }
 
-    useEffect(()=>{
-        if(middleware=== 'guest' && url && user ){
+    useEffect(() => {
+        if(middleware === 'guest' && url && user) {
             navigate(url)
         }
-        if(middleware === 'guest' && user && user.admin){
-            navigate('/admin')
+
+        if(middleware === 'guest' && user && user.admin) {
+            navigate('/admin');
         }
-        if(middleware === 'admin' && user && !user.admin){
+
+        if(middleware === 'admin' && user && !user.admin) {
             navigate('/')
         }
-        if(middleware === 'auth'  && error){
+
+        if(middleware === 'auth' && error) {
             navigate('/auth/login')
         }
-    },[user,error])
+     }, [user, error]) 
+
 
    
     return {

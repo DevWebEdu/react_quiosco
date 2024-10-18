@@ -21,10 +21,12 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 const Layout = () => {
-  const {modal} =useQuiosco()
-  const {user,error } = useAuth({
+
+   useAuth({
     middleware:'auth'
   })
+
+  const {modal} =useQuiosco()
   return (
     <>
       <div className="md:flex">

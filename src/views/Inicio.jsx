@@ -3,12 +3,15 @@ import  SWR from 'swr'
 import useQuiosco from "../hooks/useQuiosco"
 import clienteAxios from "../config/axios"
 import useSWR from "swr"
+import { useAuth } from "../hooks/useAuth"
 
 
 const Inicio = () => {
   const token = localStorage.getItem('AUTH_TOKEN')
   const {categoriaActual} = useQuiosco()
-
+  useAuth({
+    middleware:'auth'
+  })
   //consulta en SWR 
   const fetcher = () => clienteAxios('/api/productos',{
     headers: {
@@ -21,9 +24,9 @@ const Inicio = () => {
     refreshInterval :  1000
   })
 
-  if(isLoading && categoriaActual) return 'Cargando...';
+  if(isLoading  ) return 'Cargando...';
   const productos = data.data.filter(prod => prod.categoria_id === categoriaActual.id)
-
+  
   return (
     <>
     
@@ -32,9 +35,12 @@ const Inicio = () => {
       Elige y  personaliza tu pedido a continuacion.
     </p>
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-    {productos.map(prod=>(
-        <Producto key={prod.imagen}  productos={prod} botonAgregar={true} />
-      ))}
+    {productos ? (
+              productos.map(prod=>(
+                <Producto key={prod.imagen}  productos={prod} botonAgregar={true} />
+      ))):(
+        <>cargando</>
+      )}
     </div>
       
     </>
