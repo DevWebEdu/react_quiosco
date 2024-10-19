@@ -25,6 +25,7 @@ export const useAuth= ({middleware,url}) => {
         try {
             const { data } = await clienteAxios.post('/api/login', datos)
             localStorage.setItem('AUTH_TOKEN', data.token)
+            //navigate('/')
             setErrores([])
             // volver a llamar a SWR
             await mutate()
@@ -36,7 +37,7 @@ export const useAuth= ({middleware,url}) => {
         
         try {
             const {data} = await clienteAxios.post('/api/registro', datos)
-            localStorage.setItem('AUTH_TOKEN', data.token);
+            navigate('/auth/login')
             setErrores([])
             await mutate()
           } catch (error) {
@@ -70,7 +71,7 @@ export const useAuth= ({middleware,url}) => {
             navigate('/admin');
         }
 
-        if(middleware === 'admin' && user && !user.admin) {
+        if(middleware === 'auth' && user && !user.admin) {
             navigate('/')
         }
 
